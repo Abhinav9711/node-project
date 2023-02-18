@@ -120,8 +120,18 @@ const sendMail = async (user, email, token) => {
   }
 }
 
+const checkConnection = async(req, res) => {
+  try {
+    res.send('connected successful');
+  }
+  catch(error) {
+    res.error('error:', error);
+  }
+}
+
 module.exports = {
   createUser,
-  signInUser
+  signInUser,
+  checkConnection
 }
 
