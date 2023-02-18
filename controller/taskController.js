@@ -18,7 +18,8 @@ const createTask = async (req, res) => {
     const newTask = new Task({
       task: task,
       status: status,
-      createdAt: new Date()
+      createdAt: new Date(),
+      updatedAt: new Date()
     })
 
     await newTask.save();
@@ -33,10 +34,15 @@ const createTask = async (req, res) => {
 const updateTask = async (req, res) => {
   try {
     const { filter, update } = req.body || {};
+    if(isEmpty(filter) || isEmpty(update)) {
+      res.status(400).json({"message": 'Please pass filter and update values'});
+      return ;
+    }
     const data = await Task.findOne(filter);
     if (isEmpty(data)) {
       throw new Error('Task is not present with provided filter, so can not update it');
     }
+    update.updatedAt = new Date();
     await Task.updateOne(filter, { "$set": update });
 
     res.status(200).json('Updated successfuly');
@@ -79,7 +85,7 @@ const sortApiFunction = async (req, res) => {
 
 const getTaskDetails = async (req, res) => {
   try {
-    const limit = Number(req.query.limit) || 3;
+    const limit = Number(req.query.limit) || 5;
     const count = await Task.count(req.query);
     const page = Number(req.query.page) || 1;
     let pages = count / limit;
@@ -98,8 +104,16 @@ const getTaskDetails = async (req, res) => {
 
 const getTaskNames = async (req, res) => {
   try {
-    const data = await Task.find({}, { task: 1 }).sort('-sequence')
-    res.status(200).json({ 'data': data, 'Total number of Tasks:': data.length });
+    const limit = Number(req.query.limit) || 5;
+    const count = await Task.count(req.query);
+    const page = Number(req.query.page) || 1;
+    let pages = count / limit;
+    const skip = (page - 1) * limit;
+
+    pages = pages > parseInt(pages) ? parseInt(pages) + 1 : pages;
+
+    const data = await Task.find({}, { task: 1 }).sort('-sequence').skip(skip).limit(limit);
+    res.status(200).json({ 'data': data, 'Total number of Tasks:': data.length, "Total number of pages: ": pages, "Current page": page, limit: limit });
 
   }
   catch (error) {

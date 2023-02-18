@@ -1,4 +1,4 @@
-const { isEmpty, get, constant } = require('lodash');
+const { isEmpty, get } = require('lodash');
 const nodeMailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 
@@ -62,7 +62,7 @@ const signInUser = async(req, res) => {
     },
     'secret',
     {
-      expiresIn: '5min'
+      expiresIn: '10min'
     })
 
     const response = await sendMail(userName, email, token);

@@ -16,6 +16,9 @@ const taskSchema = new mongoose.Schema({
   createdAt: {
     type: Date
   },
+  updatedAt: {
+    type: Date
+  },
   sequence: {
     type: Number
   }
