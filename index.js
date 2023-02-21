@@ -13,6 +13,9 @@ app.use(express.json());
 app.use('/task', userAuthentication, taskRouter);
 app.use('/user', userRouter);
 app.use('/test', userRouter);
+app.use('/', (req, res) => {
+  res.send("Welcome to the Task Management System");
+})
 
 const start = async () => {
   try {
