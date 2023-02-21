@@ -17,9 +17,9 @@ app.use('/', (req, res) => {
   res.send("Welcome to the Task Management System");
 })
 
-const start = async () => {
+const start = () => {
   try {
-    await connectDb();
+    connectDb();
     app.listen(port, function () {
       console.log(`server is running on port: `, port);
     })
