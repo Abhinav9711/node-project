@@ -66,7 +66,7 @@ const signInUser = async(req, res) => {
     })
 
     console.log('env: ', process.env.Node_env);
-    console.log(process.env.Node_env === 'production');
+    console.log( process.env.Node_env === 'production');
     if (process.env.Node_env === 'production') {
       res.status(200).json({
         text: `'Hi ${userName}, \n 'Please find the Authorization key and use it in headers', \n 'Authorization': ${token} `
