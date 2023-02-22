@@ -65,14 +65,16 @@ const signInUser = async(req, res) => {
       expiresIn: '10min'
     })
 
-    console.log('env: ', process.env.Node_env);
-    console.log( process.env.Node_env === 'production');
+    console.log('env:', process.env.Node_env);
+    console.log( process.env.Node_env == 'production');
     if (process.env.Node_env === 'production') {
+      console.log('inside');
       res.status(200).json({
         text: `'Hi ${userName}, \n 'Please find the Authorization key and use it in headers', \n 'Authorization': ${token} `
       })
       return ;
     }
+    console.log('outside');
     const response = await sendMail(userName, email, token);
     if(response) {
       res.status(200).json({
