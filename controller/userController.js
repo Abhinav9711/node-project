@@ -88,6 +88,7 @@ const signInUser = async(req, res) => {
 
 const sendMail = async (user, email, token) => {
   try {
+    console.log('password:', process.env.EMAIL_PASSWORD);
     return new Promise((resolve, reject)=>{
     var transporter = nodeMailer.createTransport({
       service: constants.SERVICE,
