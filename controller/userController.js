@@ -66,6 +66,11 @@ const signInUser = async(req, res) => {
     })
 
     const response = await sendMail(userName, email, token);
+    if (process.env.Node_env === 'production') {
+      res.status(200).json({
+        text: `'Hi ${userName}, \n 'Please find the Authorization key and use it in headers', \n 'Authorization': ${token} `
+      })
+    }
     if(response) {
       res.status(200).json({
         message: "Email sent successfully",
@@ -100,7 +105,7 @@ const sendMail = async (user, email, token) => {
     
     var mailOptions = {
       from: process.env.EMAIL_ID,
-      to: 'abhinavjmain@gmail.com',
+      to: email,
       subject: constants.SUBJECT,
       text: `'Hi ${user}, \n 'Please find the Authorization key and use it in headers', \n 'Authorization': ${token} `
     };
