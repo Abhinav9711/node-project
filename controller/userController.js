@@ -65,13 +65,13 @@ const signInUser = async(req, res) => {
       expiresIn: '10min'
     })
 
-    const response = await sendMail(userName, email, token);
     if (process.env.Node_env === 'production') {
       res.status(200).json({
         text: `'Hi ${userName}, \n 'Please find the Authorization key and use it in headers', \n 'Authorization': ${token} `
       })
       return ;
     }
+    const response = await sendMail(userName, email, token);
     if(response) {
       res.status(200).json({
         message: "Email sent successfully",
