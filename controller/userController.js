@@ -70,6 +70,7 @@ const signInUser = async(req, res) => {
       res.status(200).json({
         text: `'Hi ${userName}, \n 'Please find the Authorization key and use it in headers', \n 'Authorization': ${token} `
       })
+      return ;
     }
     if(response) {
       res.status(200).json({
