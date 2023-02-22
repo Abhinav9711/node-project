@@ -65,12 +65,6 @@ const signInUser = async(req, res) => {
       expiresIn: '10min'
     })
 
-    // if (process.env.Node_env === "production") {
-    //   res.status(200).json({
-    //     text: `'Hi ${userName}, \n 'Please find the Authorization key and use it in headers', \n 'Authorization': ${token} `
-    //   })
-    //   return ;
-    // }
     const response = await sendMail(userName, email, token);
     if(response) {
       res.status(200).json({
@@ -94,7 +88,6 @@ const signInUser = async(req, res) => {
 
 const sendMail = async (user, email, token) => {
   try {
-    console.log('password:', process.env.EMAIL_PASSWORD);
     return new Promise((resolve, reject)=>{
     var transporter = nodeMailer.createTransport({
       service: constants.SERVICE,
